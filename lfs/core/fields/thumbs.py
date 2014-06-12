@@ -16,6 +16,7 @@ from django.db.models.fields.files import ImageFieldFile
 
 # lfs imports
 from lfs.utils.images import scale_to_max_size
+from lfs.core.settings import IMAGE_QUALITY
 
 
 def generate_thumb(img, thumb_size, format):
@@ -46,7 +47,7 @@ def generate_thumb(img, thumb_size, format):
     if format.upper() == 'JPG':
         format = 'JPEG'
 
-    new_image.save(io, format)
+    new_image.save(io, format, quality=IMAGE_QUALITY)
     return ContentFile(io.getvalue())
 
 

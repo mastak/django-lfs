@@ -11,3 +11,5 @@ ACTION_PLACE_CHOICES = [
     (ACTION_PLACE_FOOTER, _(u"Footer")),
 ]
 POSTAL_ADDRESS_L10N = getattr(settings, 'POSTAL_ADDRESS_L10N', True)
+
+IMAGE_QUALITY = getattr(settings, 'LFS_IMAGE_QUALITY', 90)
