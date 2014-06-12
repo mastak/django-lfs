@@ -51,6 +51,7 @@ from lfs.catalog.settings import QUANTITY_FIELD_TYPES
 from lfs.catalog.settings import QUANTITY_FIELD_INTEGER
 from lfs.catalog.settings import QUANTITY_FIELD_DECIMAL_1
 from lfs.catalog.settings import THUMBNAIL_SIZES
+from lfs.catalog.settings import IMAGE_UPLOAD_TO
 from lfs.catalog.settings import VARIANTS_DISPLAY_TYPE_CHOICES
 from lfs.catalog.settings import CATEGORY_VARIANT_CHEAPEST_PRICE
 from lfs.catalog.settings import CATEGORY_VARIANT_CHEAPEST_BASE_PRICE
@@ -2240,7 +2241,7 @@ class Image(models.Model):
     content = generic.GenericForeignKey(ct_field="content_type", fk_field="content_id")
 
     title = models.CharField(_(u"Title"), blank=True, max_length=100)
-    image = ImageWithThumbsField(_(u"Image"), upload_to="images", blank=True, null=True, sizes=THUMBNAIL_SIZES)
+    image = ImageWithThumbsField(_(u"Image"), upload_to=IMAGE_UPLOAD_TO, blank=True, null=True, sizes=THUMBNAIL_SIZES)
     position = models.PositiveSmallIntegerField(_(u"Position"), default=999)
 
     class Meta:

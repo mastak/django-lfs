@@ -145,6 +145,8 @@ PRODUCT_TEMPLATES = getattr(settings, 'PRODUCT_TEMPLATES', PRODUCT_TEMPLATES)
 
 THUMBNAIL_SIZES = getattr(settings, 'LFS_THUMBNAIL_SIZES', ((60, 60), (100, 100), (200, 200), (300, 300), (400, 400)))
 
+IMAGE_UPLOAD_TO = getattr(settings, 'LFS_IMAGE_UPLOAD_TO', "images")
+
 if getattr(settings, 'SOLR_ENABLED', False):
     SORTING_MAP = (
         {'default': 'price', 'ftx': 'price asc', 'title': _('Price ascending')},
