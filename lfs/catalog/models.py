@@ -687,6 +687,10 @@ class Product(models.Model):
 
     uid = models.CharField(max_length=50, editable=False, unique=True, default=get_unique_id_str)
 
+    is_novelty = models.BooleanField(_(u"Novelty"), default=False)
+    priority = models.IntegerField(_(u"Priority"), default=0)
+    name_display = models.CharField(_(u"Name display"), help_text=_(u"The diaplay name of the product."), max_length=80, blank=True)
+
     class Meta:
         ordering = ("name", )
 
@@ -932,6 +936,25 @@ class Product(models.Model):
                 return False
         else:
             return self.for_sale
+
+    def get_is_novelty(self):
+        """
+        Returns true if the product is novelty. Takes care whether the product
+        is a variant.
+        """
+        if self.is_variant():
+            return self.parent.is_novelty
+        else:
+            return self.is_novelty
+
+    def get_name_display(self):
+        if self.name_display:
+            return self.name_display
+
+        if self.is_variant() and self.parent.name_display:
+            return self.parent.name_display
+
+        return self.get_name()
 
     def get_short_description(self):
         """

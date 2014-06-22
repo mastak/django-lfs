@@ -28,6 +28,7 @@ from lfs.catalog.settings import CHOICES
 from lfs.catalog.settings import CHOICES_YES
 from lfs.catalog.settings import PRODUCT_TEMPLATES
 from lfs.catalog.settings import PRODUCT_TYPE_FORM_CHOICES
+from lfs.catalog.settings import PRODUCT_WITH_VARIANTS
 from lfs.catalog.settings import VARIANT
 from lfs.core.utils import LazyEncoder
 from lfs.manage.product.images import manage_images
@@ -45,9 +46,13 @@ class ProductAddForm(forms.ModelForm):
     """
     Form to add a new product.
     """
+    def __init__(self, *args, **kwargs):
+       super(ProductAddForm, self).__init__(*args, **kwargs)
+       self.fields['sub_type'].initial = PRODUCT_WITH_VARIANTS
+
     class Meta:
         model = Product
-        fields = ("name", "slug")
+        fields = ("name", "name_display", "slug", "sub_type")
 
 
 class ProductSubTypeForm(forms.ModelForm):
@@ -77,8 +82,8 @@ class ProductDataForm(forms.ModelForm):
 
     class Meta:
         model = Product
-        fields = ("active", "name", "slug", "manufacturer", "sku", "sku_manufacturer", "price", "tax", "price_calculator",
-            "short_description", "description", "for_sale", "for_sale_price", "static_block", "template",
+        fields = ("active", "name", "name_display", "slug", "manufacturer", "sku", "sku_manufacturer", "price", "tax", "price_calculator",
+            "short_description", "description", "is_novelty", "for_sale", "for_sale_price", "static_block", "template",
             "active_price_calculation", "price_calculation", "price_unit", "unit", "type_of_quantity_field",
             "active_base_price", "base_price_unit", "base_price_amount")
 
@@ -104,9 +109,9 @@ class VariantDataForm(forms.ModelForm):
     """
     class Meta:
         model = Product
-        fields = ("active", "active_name", "name", "slug", "manufacturer", "active_sku", "sku", "sku_manufacturer",
+        fields = ("active", "active_name", "name", "name_display", "slug", "manufacturer", "active_sku", "sku", "sku_manufacturer",
             "active_price", "price", "price_calculator", "active_short_description", "short_description", "active_description",
-            "description", "for_sale", "for_sale_price", "active_for_sale", "active_for_sale_price",
+            "description", "is_novelty", "for_sale", "for_sale_price", "active_for_sale", "active_for_sale_price",
             "active_related_products", "active_static_block", "static_block", "template",
             "active_base_price", "base_price_unit", "base_price_amount")
 
