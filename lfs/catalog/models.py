@@ -47,6 +47,7 @@ from lfs.catalog.settings import PROPERTY_VALUE_TYPE_DEFAULT
 from lfs.catalog.settings import PROPERTY_VALUE_TYPE_DISPLAY
 from lfs.catalog.settings import PROPERTY_VALUE_TYPE_VARIANT
 from lfs.catalog.settings import PRODUCT_TEMPLATES
+from lfs.catalog.settings import PRODUCT_ACTIVE_DEFAULT
 from lfs.catalog.settings import QUANTITY_FIELD_TYPES
 from lfs.catalog.settings import QUANTITY_FIELD_INTEGER
 from lfs.catalog.settings import QUANTITY_FIELD_DECIMAL_1
@@ -610,7 +611,7 @@ class Product(models.Model):
 
     for_sale = models.BooleanField(_(u"For sale"), default=False)
     for_sale_price = models.FloatField(_(u"For sale price"), default=0.0)
-    active = models.BooleanField(_(u"Active"), default=False)
+    active = models.BooleanField(_(u"Active"), default=PRODUCT_ACTIVE_DEFAULT)
     creation_date = models.DateTimeField(_(u"Creation date"), auto_now_add=True)
 
     # Stocks
