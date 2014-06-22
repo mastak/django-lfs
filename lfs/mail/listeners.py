@@ -22,7 +22,8 @@ def order_sent_listener(sender, **kwargs):
     """Listen to order payed signal.
     """
     order = sender.get("order")
-    mail_utils.send_order_sent_mail(order)
+    if getattr(settings, 'LFS_SEND_ORDER_MAIL_ON_SENT', True):
+        mail_utils.send_order_sent_mail(order)
 order_sent.connect(order_sent_listener)
 
 
