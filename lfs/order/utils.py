@@ -123,6 +123,8 @@ def add_order(request):
         shipping_country=Country.objects.get(code=shipping_address.country.code),
         shipping_phone=shipping_address.phone,
 
+        mailing_confirm=request.POST.get("mailing_confirm", False),
+
         message=request.POST.get("message", ""),
     )
 

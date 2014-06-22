@@ -105,6 +105,8 @@ class Order(models.Model):
     uuid = models.CharField(max_length=50, editable=False, unique=True, default=get_unique_id_str)
     requested_delivery_date = models.DateTimeField(_(u"Delivery Date"), null=True, blank=True)
 
+    mailing_confirm = models.BooleanField(_(u"Mailing confirmation"), default=True)
+
     class Meta:
         ordering = ("-created", )
 
