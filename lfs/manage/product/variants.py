@@ -369,6 +369,7 @@ def add_variants(request, product_id):
                 properties.append(["%s|%s" % (property_id, value)])
 
     # Create a variant for every requested option combination
+    message = _(u"This combination already exist")
     for i, options in enumerate(manage_utils.cartesian_product(*properties)):
 
         if product.has_variant(options):
