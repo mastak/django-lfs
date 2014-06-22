@@ -433,6 +433,13 @@ def shipping_inline(request, template_name="lfs/checkout/shipping_inline.html"):
     selected_shipping_method = lfs.shipping.utils.get_selected_shipping_method(request)
     shipping_methods = lfs.shipping.utils.get_valid_shipping_methods(request)
 
+    for item in shipping_methods:
+        shipping_costs = lfs.shipping.utils.get_shipping_costs(request, item)
+        if shipping_costs.get('price'):
+            item.price = item.price if item.price else shipping_costs.get('price', 0)
+        else:
+            item.price = 0
+
     return render_to_string(template_name, RequestContext(request, {
         "shipping_methods": shipping_methods,
         "selected_shipping_method": selected_shipping_method,
