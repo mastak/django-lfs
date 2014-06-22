@@ -11,6 +11,7 @@ from lfs.criteria.models.criteria import ShippingMethodCriterion
 from lfs.criteria.models.criteria import UserCriterion
 from lfs.criteria.models.criteria import WidthCriterion
 from lfs.criteria.models.criteria import WeightCriterion
+from lfs.criteria.models.criteria import CityCriterion
 
 
 def is_valid(request, object, product=None):
@@ -110,6 +111,9 @@ def save_criteria(request, object):
                 except (TypeError, ValueError):
                     value = 0.0
                 c = WeightCriterion.objects.create(operator=operator, weight=value)
+            elif type_ == "city":
+                c = CityCriterion.objects.create(operator=operator, city=value)
+                c.save()
             elif type_ == "user":
                 c = UserCriterion.objects.create(operator=operator)
             elif type_ == "distance":

@@ -24,6 +24,8 @@ from lfs.criteria.settings import IS, IS_NOT, IS_VALID, IS_NOT_VALID
 from lfs.payment.models import PaymentMethod
 from lfs.shipping.models import ShippingMethod
 
+from maview_eshop.apps.shipping.edost_cities import EDOST_CITIES
+
 
 class Criterion(object):
     """Base class for all lfs criteria.
@@ -789,3 +791,73 @@ class DistanceCriterion(models.Model, Criterion):
         """Returns the value of the criterion.
         """
         return self.distance
+
+
+class CityCriterion(models.Model, Criterion):
+    """A criterion for the shipping country.
+    """
+    choices = [(c, c) for c in EDOST_CITIES]
+
+    operator = models.PositiveIntegerField(_(u"Operator"), blank=True, null=True, choices=SELECT_OPERATORS)
+    city = models.CharField(max_length=150, choices=choices)
+
+    def __unicode__(self):
+        return ugettext("City: %(operator)s %(city)s") % {'operator': self.get_operator_display(), 'city': self.value}
+
+    @property
+    def content_type(self):
+        """Returns the content_type of the criterion as lower string.
+
+        This is for instance used to select the appropriate form for the
+        criterion.
+        """
+        return u"city"
+
+    @property
+    def name(self):
+        """Returns the descriptive name of the criterion.
+        """
+        return ugettext(u"City")
+
+    def is_valid(self, request, product=None):
+        """Returns True if the criterion is valid.
+        """
+        from maview_eshop.apps.shipping.utils import get_selected_shipping_city
+        city = get_selected_shipping_city(request)
+        if self.operator == IS:
+            return city.lower() == self.city.lower()
+        else:
+            return city.lower() != self.city.lower()
+
+    @property
+    def value(self):
+        """Returns the value of the criterion.
+        """
+        return self.city
+
+    def as_html(self, request, position):
+        """Renders the criterion as html in order to be displayed within several
+        forms.
+        """
+        shop = lfs_get_object_or_404(Shop, pk=1)
+
+        cities = []
+        for country in shop.shipping_countries.all():
+            if country == self.city:
+                selected = True
+            else:
+                selected = False
+
+            cities.append({
+                "id": country.id,
+                "name": country.name,
+                "selected": selected,
+            })
+
+        return render_to_string("manage/criteria/city_criterion.html", RequestContext(request, {
+            "id": "%s%s" % (self.content_type, self.id),
+            "operator": self.operator,
+            "value": self.value,
+            "position": position,
+            "countries": cities,
+        }))
