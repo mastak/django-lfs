@@ -48,6 +48,7 @@ from lfs.catalog.settings import PROPERTY_VALUE_TYPE_DISPLAY
 from lfs.catalog.settings import PROPERTY_VALUE_TYPE_VARIANT
 from lfs.catalog.settings import PRODUCT_TEMPLATES
 from lfs.catalog.settings import PRODUCT_ACTIVE_DEFAULT
+from lfs.catalog.settings import PRODUCT_ACTIVE_IMAGES_DEFAULT
 from lfs.catalog.settings import QUANTITY_FIELD_TYPES
 from lfs.catalog.settings import QUANTITY_FIELD_INTEGER
 from lfs.catalog.settings import QUANTITY_FIELD_DECIMAL_1
@@ -659,7 +660,7 @@ class Product(models.Model):
     active_price = models.BooleanField(_(u"Active price"), default=False)
     active_for_sale = models.PositiveSmallIntegerField(_("Active for sale"), choices=CHOICES, default=CHOICES_STANDARD)
     active_for_sale_price = models.BooleanField(_(u"Active for sale price"), default=False)
-    active_images = models.BooleanField(_(u"Active Images"), default=False)
+    active_images = models.BooleanField(_(u"Active Images"), default=PRODUCT_ACTIVE_IMAGES_DEFAULT)
     active_related_products = models.BooleanField(_(u"Active related products"), default=False)
     active_accessories = models.BooleanField(_(u"Active accessories"), default=False)
     active_meta_title = models.BooleanField(_(u"Active meta title"), default=False)
